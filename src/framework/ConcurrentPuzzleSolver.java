@@ -83,7 +83,6 @@ public class ConcurrentPuzzleSolver {
 				Node child = new Node(puzzle, node);
 				
 				MyThread task = new MyThread(child, (LinkedList) l.get(index));
-				l.add(i);
 				e.execute(task);
 				if (!l.isEmpty()) {
 					System.out.println("found solution....suposedly.");
