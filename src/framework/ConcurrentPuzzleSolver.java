@@ -27,7 +27,7 @@ import java.util.concurrent.Executors;
  * 
 */
 class MyThread implements Runnable{
-	public MyThread(Puzzle puzzle, Node node){
+	public MyThread(Puzzle puzzle, Node node, LinkedList L){
 		
 	}
 	public void run() {
@@ -35,9 +35,14 @@ class MyThread implements Runnable{
 		
 	}
 	
+
+	
+	
 }
 public class ConcurrentPuzzleSolver {
 	Executor e = Executors.newFixedThreadPool(3);
+	//put a lock on it
+	
 	private final Puzzle puzzle;
 	private final HashSet seen = new HashSet();
 	
@@ -53,7 +58,8 @@ public class ConcurrentPuzzleSolver {
 	
 	
 	private LinkedList search(Node node) {
-
+		LinkedList l;
+		l = new LinkedList();
 		if (!seen.contains(node.pos)) {
 			seen.add(node.pos);
 			if (node.pos.isGoal()) { 
@@ -64,12 +70,13 @@ public class ConcurrentPuzzleSolver {
 				
 				Puzzle puzzle = (Puzzle) o;
 				
-				Runnable task = new Runnable(){
+				MyThread task = new MyThread(puzzle, node, l){
 
-					public void run() {
+					public void run(Puzzle puzzle, Node node, LinkedList l) {
 						
-						//if (result != null) 				    										
-							//return result;
+						Node child = new Node(puzzle, node);
+						l = search(child);
+						
 						
 					}
 					

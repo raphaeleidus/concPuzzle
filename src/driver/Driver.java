@@ -16,8 +16,8 @@ public class Driver {
     	// Creates the concrete puzzle, RushHour, creates a SequentialPuzzleSolver
     	// and initializes the SequentialPuzzleSolver with RushHour.
     	
-    	framework.Puzzle thePuzzle = new rushhour.RushHour();
-        framework.SequentialPuzzleSolver theSolver = new framework.SequentialPuzzleSolver(thePuzzle);                    
+    	//framework.Puzzle thePuzzle = new rushhour.RushHour();
+        //framework.SequentialPuzzleSolver theSolver = new framework.SequentialPuzzleSolver(thePuzzle);                    
         
     	// YOUR CODE HERE: there are three additional configurations of the puzzle
         // Configuration 1, shown below, initializes the sequential solver with the other puzzle,
@@ -27,8 +27,8 @@ public class Driver {
     	// framework.SequentialPuzzleSolver theSolver = new framework.SequentialPuzzleSolver(thePuzzle);
   
     	// Configuration 2, below, initializes the concurrent solver with RushHour
-    	// framework.Puzzle thePuzzle = new rushhour.RushHour();
-    	// framework.ConcurrentPuzzleSolver theSolver = new framework.ConcurrentPuzzleSolver(thePuzzle);  	
+    	 framework.Puzzle thePuzzle1 = new rushhour.RushHour();
+    	 framework.ConcurrentPuzzleSolver theSolver1 = new framework.ConcurrentPuzzleSolver(thePuzzle1);  	
  
     	// Configuration 3, below, initializes the concurrent solver with CheckersSolitaire
     	// framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
@@ -38,8 +38,8 @@ public class Driver {
       	
     	
     	// Solves the puzzle and draws the solution
-    	LinkedList theList = theSolver.solve();
-    	thePuzzle.drawSolution(theList);
+    	LinkedList theList = theSolver1.solve();
+    	thePuzzle1.drawSolution(theList);
                 
     }
      
