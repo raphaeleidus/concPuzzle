@@ -1,6 +1,7 @@
 package framework;
 
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -26,25 +27,34 @@ import java.util.concurrent.Executors;
  * is a descendant of the current one. 
  * 
 */
-class MyThread implements Runnable{
-	public MyThread(Puzzle puzzle, Node node, LinkedList L){
-		
-	}
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 
-	
-	
-}
 public class ConcurrentPuzzleSolver {
+	
+	class MyThread implements Runnable{
+		Node n;
+		LinkedList l;
+		public MyThread(Node node, LinkedList L){
+			n = node;
+		 	l = L;
+		}
+		public void run() {	
+			
+			l = search(n);
+			if (l != null) {
+			}
+			
+			
+		}
+		
+
+		
+		
+	}
 	Executor e = Executors.newFixedThreadPool(3);
 	//put a lock on it
 	
 	private final Puzzle puzzle;
-	private final Set seen = Collections.synchronizedSet(new HashSet());
+	private final ConcurrentHashMap<Puzzle, Node> seen = new ConcurrentHashMap<Puzzle, Node>();
 	
 	
 	public ConcurrentPuzzleSolver(Puzzle puzzle) {
@@ -57,11 +67,9 @@ public class ConcurrentPuzzleSolver {
 	}
 	
 	
-	private LinkedList search(Node node) {
-		LinkedList l;
-		l = new LinkedList();
-		if (!seen.contains(node.pos)) {
-			seen.add(node.pos);
+	public LinkedList search(Node node) {
+		LinkedList l = new LinkedList();
+		if (seen.putIfAbsent(node.pos, node) == null) {
 			if (node.pos.isGoal()) { 
 				return node.asPositionList();
 			}
@@ -69,19 +77,14 @@ public class ConcurrentPuzzleSolver {
 			for (Object o : node.pos.legalMoves(node)) { 
 				
 				Puzzle puzzle = (Puzzle) o;
+				Node child = new Node(puzzle, node);
 				
-				MyThread task = new MyThread(puzzle, node, l){
-
-					public void run(Puzzle puzzle, Node node, LinkedList l) {
-						
-						Node child = new Node(puzzle, node);
-						l = search(child);
-						
-						
-					}
-					
-				};
-				e.execute(task);							
+				MyThread task = new MyThread(child, l);
+				e.execute(task);
+				if (!l.isEmpty()) {
+					System.out.println("found solution....suposedly.");
+					return l;
+				}
 				
 				
 					
