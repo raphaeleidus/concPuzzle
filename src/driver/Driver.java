@@ -39,7 +39,11 @@ public class Driver {
     	
     	// Solves the puzzle and draws the solution
     	LinkedList theList = theSolver1.solve();
-    	thePuzzle1.drawSolution(theList);
+    	if (theList == null) {
+    		System.out.println("No Solution Found.");
+    	} else {
+    		thePuzzle1.drawSolution(theList);
+    	}
                 
     }
      
