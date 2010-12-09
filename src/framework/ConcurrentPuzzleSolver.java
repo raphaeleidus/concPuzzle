@@ -2,8 +2,6 @@ package framework;
 
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /*
  
@@ -30,18 +28,17 @@ import java.util.concurrent.Executors;
 
 public class ConcurrentPuzzleSolver {
 	
-	class MyThread implements Runnable{
+	class MyThread implements Callable{
 		Node n;
-		LinkedList l;
-		public MyThread(Node node, LinkedList L){
+		int level;
+		public MyThread(Node node, int deep){
 			n = node;
-		 	l = L;
+		 	level = deep;
 		}
-		public void run() {	
+		public LinkedList call() {	
 			
-			l = search(n);
-			if (l != null) {
-			}
+			
+			return search(n, level);
 			
 			
 		}
@@ -50,7 +47,6 @@ public class ConcurrentPuzzleSolver {
 		
 		
 	}
-	Executor e = Executors.newFixedThreadPool(3);
 	//put a lock on it
 	
 	private final Puzzle puzzle;
@@ -63,36 +59,52 @@ public class ConcurrentPuzzleSolver {
 	
 	public LinkedList solve() {
 		puzzle.initialPosition();
-		return search(new Node(puzzle, null));
+		return search(new Node(puzzle, null), 1);
 	}
 	
 	
-	public LinkedList search(Node node) {
-		LinkedList l = new LinkedList();
+	public LinkedList search(Node node, int level) {		
+		ExecutorService e = Executors.newFixedThreadPool(2);
+		Set<Future<LinkedList>> set = new HashSet<Future<LinkedList>>();
 		if (seen.putIfAbsent(node.pos, node) == null) {
 			if (node.pos.isGoal()) { 
 				return node.asPositionList();
 			}
 			
 			for (Object o : node.pos.legalMoves(node)) { 
-				LinkedList i = new LinkedList();
-				l.addLast(i);
-				int index = l.size()-1;
 				
 				Puzzle puzzle = (Puzzle) o;
 				Node child = new Node(puzzle, node);
 				
-				MyThread task = new MyThread(child, (LinkedList) l.get(index));
-				e.execute(task);
-				if (!l.isEmpty()) {
-					System.out.println("found solution....suposedly.");
-					return l;
+				Callable<LinkedList> task = new MyThread(child, level+1);
+				Future<LinkedList> future = e.submit(task);
+				set.add(future);
+						
+			}
+			e.shutdown();
+			try {
+				e.awaitTermination(60, TimeUnit.SECONDS);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			for (Future<LinkedList> future : set) {
+				LinkedList result = null;
+				try {
+					result = future.get();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ExecutionException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				
-				
-					
+				if(result == null) continue;
+				if(result.isEmpty()) continue;
+				else return result;
 			}
 		}
+		
 		return null;
 	}
 	

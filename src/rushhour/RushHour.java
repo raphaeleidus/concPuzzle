@@ -120,9 +120,6 @@ public class RushHour implements Puzzle {
 				break;
 			}
 		}
-		if (matrix[2][2] != 'O') {
-			System.out.print("!");
-		}
 		if (pos_X == -1) return false;
 		for (int i = pos_X+1; i<6; i++ ) {
 			if (matrix[2][i] != '0') return false;
