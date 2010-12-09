@@ -75,11 +75,15 @@ public class ConcurrentPuzzleSolver {
 			}
 			
 			for (Object o : node.pos.legalMoves(node)) { 
+				LinkedList i = new LinkedList();
+				l.addLast(i);
+				int index = l.size()-1;
 				
 				Puzzle puzzle = (Puzzle) o;
 				Node child = new Node(puzzle, node);
 				
-				MyThread task = new MyThread(child, l);
+				MyThread task = new MyThread(child, (LinkedList) l.get(index));
+				l.add(i);
 				e.execute(task);
 				if (!l.isEmpty()) {
 					System.out.println("found solution....suposedly.");
