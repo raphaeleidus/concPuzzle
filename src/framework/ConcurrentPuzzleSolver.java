@@ -44,7 +44,7 @@ public class ConcurrentPuzzleSolver {
 	//put a lock on it
 	
 	private final Puzzle puzzle;
-	private final HashSet seen = new HashSet();
+	private final Set seen = Collections.synchronizedSet(new HashSet());
 	
 	
 	public ConcurrentPuzzleSolver(Puzzle puzzle) {
