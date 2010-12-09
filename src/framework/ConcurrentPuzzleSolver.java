@@ -5,7 +5,7 @@ import java.util.concurrent.*;
 
 /*
  
- * Generic sequential puzzle solver. 
+ * Generic Concurrent puzzle solver. 
  * Field puzzle holds the concrete puzzle.
  * Field seen contains the positions seen so far.
 
@@ -47,7 +47,7 @@ public class ConcurrentPuzzleSolver {
 		
 		
 	}
-	//put a lock on it
+	//put a lock on seen
 	
 	private final Puzzle puzzle;
 	private final ConcurrentHashMap<Puzzle, Node> seen = new ConcurrentHashMap<Puzzle, Node>();
@@ -62,7 +62,12 @@ public class ConcurrentPuzzleSolver {
 		return search(new Node(puzzle, null), 1);
 	}
 	
-	
+	/*
+	 * Purpose:  To see if the current state is solved and make threads to run
+	 * the same test on its children
+	 * Arguments:  Node, int
+	 * Outputs: LinkedList
+	 */
 	public LinkedList search(Node node, int level) {		
 		ExecutorService e = Executors.newFixedThreadPool(2);
 		Set<Future<LinkedList>> set = new HashSet<Future<LinkedList>>();
@@ -70,7 +75,7 @@ public class ConcurrentPuzzleSolver {
 			if (node.pos.isGoal()) { 
 				return node.asPositionList();
 			}
-			
+			//Run the search function on the Children
 			for (Object o : node.pos.legalMoves(node)) { 
 				
 				Puzzle puzzle = (Puzzle) o;
@@ -81,6 +86,7 @@ public class ConcurrentPuzzleSolver {
 				set.add(future);
 						
 			}
+			//Shut down execution and wait for all children to complete before moving on
 			e.shutdown();
 			try {
 				e.awaitTermination(60, TimeUnit.SECONDS);
@@ -88,6 +94,7 @@ public class ConcurrentPuzzleSolver {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			// Send the return value back up the tree
 			for (Future<LinkedList> future : set) {
 				LinkedList result = null;
 				try {
