@@ -42,8 +42,6 @@ public class SequentialPuzzleSolver {
 	
 	
 	private LinkedList search(Node node) {
-		if (level > 28) 
-			System.out.println("at level ");
 		if (!seen.contains(node.pos)) {
 			seen.add(node.pos);
 			if (node.pos.isGoal()) { 
