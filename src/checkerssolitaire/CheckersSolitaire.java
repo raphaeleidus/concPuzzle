@@ -22,23 +22,25 @@ import java.awt.Point;
 import framework.*;
 
 /*
- * A RushHour puzzle is a 6x6 matrix of characters.
- * The RushHour puzzle implements the Puzzle interface methods:
+ * A CheckersSolitaire puzzle is a 7x7 matrix of characters.
+ * The CheckersSolitaire puzzle implements the Puzzle interface methods:
  * 		void initialPosition() 
  * 		isGoal() 
  *      LinkedList legalMoves(Node node)
  *                   
- * The RushHour puzzle implements several helper methods
- *      RushHour move(Move m)
- *      boolean emptyMove(Move m, Node node)
- *      boolean hasVehicle(pos_x, pos_y, vehicle, length, direction)
- *      void placeVehicle(pos_x, pos_y, vehicle, length, direction)
+ * The CheckersSolitaire puzzle implements several helper methods
+ *      CheckersSolitaire move(Move m)
+ *      boolean hasChecker(pos_x, pos_y)
+ *      int getLastDirection(node)
+ *      checkersSolitaire clone()
+ *      void addChecker(pos_x, pos_y)
  *      public LinkedList transform()
  *            
- * The RushHour puzzle implements equal and hashCode. The implementations override the 
+ * The CheckersSolitaire puzzle implements equal and hashCode. The implementations override the 
  * default ones inherited from Object.                      
  * 	              
  */
+
 
 public class CheckersSolitaire implements Puzzle {
 	char[][] matrix = new char[7][7];
@@ -62,12 +64,9 @@ public class CheckersSolitaire implements Puzzle {
 		matrix[x][y] = 'C';
 	}
 	/*
-	 * Reads an initial position from a list of predefined configurations.
-	 * The initial position comes as a list of vehicle placements.
-	 * An iterator over the list of vehicle placements reads each 
-	 * vehicle placement (given in a VehicleNode object) and places
-	 * the vehicle on the matrix by calling helper placeVehicle(...). 
-	 * @see framework.Puzzle#initialPosition()
+	 * Reads in the initial position of the checkers based on the
+	 * version of the puzzle being used as indicated in the 
+	 * initialization of Linkedlist l
 	 */
 	public void initialPosition() {
 		Configurations.addAll();
@@ -79,16 +78,7 @@ public class CheckersSolitaire implements Puzzle {
 		}	
 	}
 	/*
-	 * Places vehicle "vehicle" of length "length" in direction "direction"
-	 * at row "pos_x", column "pos_y" 
-	 * 
-	 * direction (0,1): 0 means horizontal and 1 means vertical
-	 */
-	// TODO: direction should be coded with symbolic constants
-	
-	/*
-	 * Checks if there is a vehicle "vehicle" of length "length" placed at row "pos_x", column "pos_y"
-	 * in direction "direction" 
+	 * Checks to see if a checker is at the given position
 	 */
 	
 	private boolean hasChecker(int pos_x, int pos_y) {
@@ -100,9 +90,7 @@ public class CheckersSolitaire implements Puzzle {
 	
 	/*
 	 * Checks if the puzzle is in a "solved" position.
-	 * Checks if the Ice Cream truck (vehicle 'X'), which occupies 
-	 * cells pos_X-1 and pos_X at row 2, is free to go --- 
-	 * i.e., cells 2,pos_X+1 through 2,5 are empty 
+	 * Checks if the puzzle is empty except for the middle position
 	 */	
 	public boolean isGoal() {
 		if (this.hasChecker(3, 3)) {
@@ -130,9 +118,9 @@ public class CheckersSolitaire implements Puzzle {
 	}
 
 	/*
-	 * Transforms the current matrix into a linked list of VehicleNodes
-	 * Each VehicleNode contains the row, column, vehicle and direction 
-	 * of vehicle placement. Needed by RushHourPanel.  
+	 * Transforms the current matrix into a linked list of CheckerNodes
+	 * Each CheckerNode contains the row, column, vehicle and direction 
+	 * of vehicle placement. Needed by CheckersSolitairePanel.  
 	 */
 	
 	private LinkedList transform() {
@@ -184,7 +172,10 @@ public class CheckersSolitaire implements Puzzle {
         }
 	}
 	
-	
+	/*
+	 * Gets the direction of the previous move at the node, and then reorders the choices of direction randomly
+	 * placing the direction of the previous move at the end of the list
+	 */
 	private int getLastDirection(Node node) {
 		Node pNode = node.getPrev();
 		if (pNode == null) {
@@ -291,10 +282,10 @@ public class CheckersSolitaire implements Puzzle {
 
 	
 	/*
-	 * Creates a new RushHour puzzle, which represents the new position resulting 
+	 * Creates a new CheckersSolitaire puzzle, which represents the new position resulting 
 	 * from taking move "theMove".
-	 * The returned RushHour puzzle (newPosition) is the same as the current one, except in 
-	 * exactly one vehicle which is moved left, right, up or down by one cell. 
+	 * The returned CheckersSolitaire puzzle (newPosition) is the same as the current one, except in 
+	 * exactly one checker which is moved left, right, up or down by one cell. 
 	 */
 	
 	private CheckersSolitaire move(Move theMove) {
@@ -325,7 +316,10 @@ public class CheckersSolitaire implements Puzzle {
 		
 		return newPosition;
 	}
-	
+	/*
+	 * 
+	 * 
+	 */
 	public CheckersSolitaire clone() {
 		
 		CheckersSolitaire newPosition = new CheckersSolitaire();
@@ -371,7 +365,7 @@ public class CheckersSolitaire implements Puzzle {
 	/*
 	 * The class encapsulates a move. Each move is defined as
 	 * row (pos_x), column (pos_y), direction (0 - left, 1 - right, 2 - up, 3 - down).
-	 * The vehicle at pos_x, pos_y is moved one block in direction direction.
+	 * The Checker at pos_x, pos_y is moved one block in direction direction.
 	 * TODO: direction should be coded with meaningful symbolic constants!
 	 */
 	

@@ -1,9 +1,8 @@
 package checkerssolitaire; 
 
 /*
- * This class specifies a vehicle "vehicle". The vehicle is placed at 
- * row "pos_x", column "pos_y", in direction "direction", and has 
- * length "len". 
+ * This class specifies a new checker. The checker is placed at 
+ * row "pos_x", column "pos_y".
  */
 
 class CheckerNode {
