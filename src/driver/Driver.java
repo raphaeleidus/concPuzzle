@@ -23,8 +23,8 @@ public class Driver {
         // Configuration 1, shown below, initializes the sequential solver with the other puzzle,
     	// CheckersSolitaire
     	
-    	// framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
-    	// framework.SequentialPuzzleSolver theSolver = new framework.SequentialPuzzleSolver(thePuzzle);
+    	 framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
+    	 framework.SequentialPuzzleSolver theSolver = new framework.SequentialPuzzleSolver(thePuzzle);
   
     	// Configuration 2, below, initializes the concurrent solver with RushHour
     	 framework.Puzzle thePuzzle1 = new rushhour.RushHour();
@@ -38,11 +38,18 @@ public class Driver {
       	
     	
     	// Solves the puzzle and draws the solution
-    	LinkedList theList = theSolver1.solve();
+    	 LinkedList theList = theSolver.solve();
+     	if (theList == null) {
+     		System.out.println("No Solution Found.");
+     	} else {
+     		thePuzzle.drawSolution(theList);
+     	} 
+    	 
+    	LinkedList theList1 = theSolver1.solve();
     	if (theList == null) {
     		System.out.println("No Solution Found.");
     	} else {
-    		thePuzzle1.drawSolution(theList);
+    		thePuzzle1.drawSolution(theList1);
     	}
                 
     }
