@@ -231,35 +231,50 @@ public class CheckersSolitaire implements Puzzle {
 	
 	
 	public LinkedList legalMoves(Node node) {
+		Move last = getLastMove(node);
 		
+		LinkedList moveOrder = new LinkedList();
+		moveOrder.add(0); moveOrder.add(1); moveOrder.add(2); moveOrder.add(3);
+		moveOrder.remove(last.direction);
+		moveOrder.addLast(last.direction);
 		
 		LinkedList theSet = new LinkedList();
-		for (int i=0; i<7; i++) {
-			for (int j=0; j<7; j++) { 
-				if (this.hasChecker(i, j)){
-					//left move
-					if (i>=2 && matrix[i-1][j] == 'C' && matrix[i-2][j] == 'O') {
-						Move theMove = new Move(i,j,0);
-						CheckersSolitaire position = move(theMove);
-						theSet.add(position);
-					}
-					//right move
-					if (i<=4 && matrix[i+1][j] == 'C' && matrix[i+2][j] == 'O') {
-						Move theMove = new Move(i,j,1);
-						CheckersSolitaire position = move(theMove);
-						theSet.add(position);
-					}
-					//up move
-					if (j>=2 && matrix[i][j-1] == 'C' && matrix[i][j-2] == 'O') {
-						Move theMove = new Move(i,j,2);
-						CheckersSolitaire position = move(theMove);
-						theSet.add(position);
-					}
-					//down move
-					if (j<=4 && matrix[i][j+1] == 'C' && matrix[i][j+2] == 'O') {
-						Move theMove = new Move(i,j,3);
-						CheckersSolitaire position = move(theMove);
-						theSet.add(position);
+		
+		for (Object dir : moveOrder) {
+			int d = (Integer) dir;
+			for (int i=0; i<7; i++) {
+				for (int j=0; j<7; j++) { 
+					if (this.hasChecker(i, j)){
+						switch(d){
+						case 0:
+							if (i>=2 && matrix[i-1][j] == 'C' && matrix[i-2][j] == 'O') {
+								Move theMove = new Move(i,j,0);
+								CheckersSolitaire position = move(theMove);
+								theSet.add(position);
+							}
+							break;
+						case 1:
+							if (i<=4 && matrix[i+1][j] == 'C' && matrix[i+2][j] == 'O') {
+								Move theMove = new Move(i,j,1);
+								CheckersSolitaire position = move(theMove);
+								theSet.add(position);
+							}
+							break;
+						case 2:
+							if (j>=2 && matrix[i][j-1] == 'C' && matrix[i][j-2] == 'O') {
+								Move theMove = new Move(i,j,2);
+								CheckersSolitaire position = move(theMove);
+								theSet.add(position);
+							}
+							break;
+						case 3:
+							if (j<=4 && matrix[i][j+1] == 'C' && matrix[i][j+2] == 'O') {
+								Move theMove = new Move(i,j,3);
+								CheckersSolitaire position = move(theMove);
+								theSet.add(position);
+							}
+							break;
+						}
 					}
 				}
 			}
