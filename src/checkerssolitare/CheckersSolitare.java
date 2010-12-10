@@ -240,8 +240,8 @@ public class CheckersSolitare implements Puzzle {
 	public CheckersSolitare clone() {
 		
 		CheckersSolitare newPosition = new CheckersSolitare();
-		for (int i=0; i<6; i++)
-			for (int j=0; j<6; j++) 
+		for (int i=0; i<7; i++)
+			for (int j=0; j<7; j++) 
 				newPosition.matrix[i][j] = matrix[i][j];
 		
 		return newPosition;
