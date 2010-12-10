@@ -100,12 +100,14 @@ public class CheckersSolitaire implements Puzzle {
 //		return false;
 		
 		int checkers = 0;
+		int limit = 19;
 		for(int i=0;i<7;i++) {
 			for(int j=0;j<7;j++){
 				if(this.hasChecker(i,j)) checkers++;
+				if(checkers >= limit) return false;
 			}
 		}
-		return checkers < 21;
+		return checkers < limit;
 	}
 
 	/*
