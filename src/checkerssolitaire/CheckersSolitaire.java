@@ -86,20 +86,15 @@ public class CheckersSolitaire implements Puzzle {
 	 * i.e., cells 2,pos_X+1 through 2,5 are empty 
 	 */	
 	public boolean isGoal() {
-		if (this.hasChecker(3, 3)) {
-			for(int i=0; i<7; i++){
-				for(int j=0; j<7; j++){
-					if(((j<2 || j>4) && (i<2 || i>4)) || (i==3 && j==3)) {
-						continue;
-					}
-					if(this.hasChecker(i, j)) {
-						return false;
-					}
+		int checkers = 0;
+		for(int i=0; i<7; i++){
+			for(int j=0; j<7; j++){
+				if(this.hasChecker(i, j)) {
+					checkers++;
 				}
 			}
-			return true;
-		} 
-		return false;
+		}
+		return checkers < 10;
 	}
 
 	/*
@@ -152,7 +147,7 @@ public class CheckersSolitaire implements Puzzle {
         	do {
         		t1=System.currentTimeMillis();
             }
-     	    while (t1-t0<500);
+     	    while (t1-t0<700);
         	        
         }
 	}
@@ -171,9 +166,7 @@ public class CheckersSolitaire implements Puzzle {
 		LinkedList theSet = new LinkedList();
 		for (int i=0; i<7; i++) {
 			for (int j=0; j<7; j++) { 
-				if (!this.hasChecker(i, j)){
-					continue;
-				} else {
+				if (this.hasChecker(i, j)){
 					//left move
 					if (i>=2 && matrix[i-1][j] == 'C' && matrix[i-2][j] == 'O') {
 						Move theMove = new Move(i,j,0);
@@ -227,14 +220,14 @@ public class CheckersSolitaire implements Puzzle {
 			newPosition.matrix[theMove.pos_x+2][theMove.pos_y] = 'C';
 			break;
 		case 2: //up
-			newPosition.matrix[theMove.pos_y][theMove.pos_x] = 'O';
-			newPosition.matrix[theMove.pos_y-1][theMove.pos_x] = 'O';
-			newPosition.matrix[theMove.pos_y-2][theMove.pos_x] = 'C';
+			newPosition.matrix[theMove.pos_x][theMove.pos_y] = 'O';
+			newPosition.matrix[theMove.pos_x][theMove.pos_y-1] = 'O';
+			newPosition.matrix[theMove.pos_x][theMove.pos_y-2] = 'C';
 			break;
 		case 3: //down
-			newPosition.matrix[theMove.pos_y][theMove.pos_x] = 'O';
-			newPosition.matrix[theMove.pos_y+1][theMove.pos_x] = 'O';
-			newPosition.matrix[theMove.pos_y+2][theMove.pos_x] = 'C';
+			newPosition.matrix[theMove.pos_x][theMove.pos_y] = 'O';
+			newPosition.matrix[theMove.pos_x][theMove.pos_y+1] = 'O';
+			newPosition.matrix[theMove.pos_x][theMove.pos_y+2] = 'C';
 			break;
 		}
 		

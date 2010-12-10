@@ -28,9 +28,9 @@ class CheckersSolitairePanel extends JPanel {
 	  if (type == 'O') g.setColor(Color.white);
 	  else if (type == 'C') g.setColor(Color.blue);
 	  
-	  int thickness = 4;
+	  int thickness = 38;
 	  
-	  g.fillOval(pos_x*thickness, pos_y*thickness, thickness, thickness);
+	  g.fillOval(pos_x*thickness+100+(pos_x*2), pos_y*thickness+50+(pos_y*2), thickness, thickness);
 	  
   }
 	
