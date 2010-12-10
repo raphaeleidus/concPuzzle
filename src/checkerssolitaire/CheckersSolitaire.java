@@ -263,18 +263,22 @@ public class CheckersSolitaire implements Puzzle {
 	public boolean equals(Object o) {
 	    
 		CheckersSolitaire other = (CheckersSolitaire) o;
-		for (int i=0; i<7; i++)
-			for (int j=0; j<7; j++) 
-				if (matrix[i][j] != other.matrix[i][j]) return false;
+		for (int i=0; i<7; i++) {
+			for (int j=0; j<7; j++) { 
+				if (this.matrix[i][j] != other.matrix[i][j]) return false;
+			}
+		}
 		
 		return true;
 	}
 	
 	public int hashCode() {
 		int code=0;
-		for (int i=0; i<7; i++)
-			for (int j=0; j<7; j++) 
-				code = code+(int)matrix[i][j];
+		for (int i=0; i<7; i++) {
+			for (int j=0; j<7; j++) { 
+				code = code+matrix[i][j];
+			}
+		}
 		return code;
 	}
 	

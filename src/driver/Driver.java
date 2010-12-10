@@ -23,26 +23,26 @@ public class Driver {
         // Configuration 1, shown below, initializes the sequential solver with the other puzzle,
     	// CheckersSolitaire
     	
-    	 framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
-    	 framework.SequentialPuzzleSolver theSolver = new framework.SequentialPuzzleSolver(thePuzzle);
+    	framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
+    	framework.SequentialPuzzleSolver theSolver = new framework.SequentialPuzzleSolver(thePuzzle);
   
     	// Configuration 2, below, initializes the concurrent solver with RushHour
-    	 framework.Puzzle thePuzzle1 = new rushhour.RushHour();
-    	 framework.ConcurrentPuzzleSolver theSolver1 = new framework.ConcurrentPuzzleSolver(thePuzzle1);  	
+    	framework.Puzzle thePuzzle1 = new rushhour.RushHour();
+    	framework.ConcurrentPuzzleSolver theSolver1 = new framework.ConcurrentPuzzleSolver(thePuzzle1);  	
  
     	// Configuration 3, below, initializes the concurrent solver with CheckersSolitaire
-    	// framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
-    	// framework.ConcurrentPuzzleSolver theSolver = new framework.ConcurrentPuzzleSolver(thePuzzle);  	
+    	framework.Puzzle thePuzzle2 = new checkerssolitaire.CheckersSolitaire();
+    	framework.ConcurrentPuzzleSolver theSolver2 = new framework.ConcurrentPuzzleSolver(thePuzzle);  	
     	
     	// DO NOT MODIFY ANYTHING BEYOND THIS LINE 
       	
     	
     	// Solves the puzzle and draws the solution
-    	 LinkedList theList = theSolver.solve();
+    	 LinkedList theList = theSolver2.solve();
      	if (theList == null) {
      		System.out.println("No Solution Found.");
      	} else {
-     		thePuzzle.drawSolution(theList);
+     		thePuzzle2.drawSolution(theList);
      	} 
     	 
     	LinkedList theList1 = theSolver1.solve();
