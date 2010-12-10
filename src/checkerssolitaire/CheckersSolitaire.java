@@ -182,6 +182,46 @@ public class CheckersSolitaire implements Puzzle {
 	}
 	
 	
+	private Move getLastMove(Node node) {
+		CheckersSolitaire prev = (CheckersSolitaire) node.getPrev().getPos();
+		for (int i=0; i<7; i++){
+			for (int j=0; j<7; j++){
+				if (prev.matrix[i][j]=='O' && this.matrix[i][j]=='C') {
+					Move m = new Move(i, j, 4);
+					//check for left move
+					if ((i<5)||(i<3 && (j<2 || j>4))){ //possible for the move to have come from the right
+						if(prev.matrix[i+1][j] == 'C' && prev.matrix[i+2][j] == 'C' && this.matrix[i+1][j] == 'O' && this.matrix[i+2][j] == 'O'){
+							m = new Move(i, j, 0);
+						}
+					}
+					//check for right move
+					if ((i>1)||(i>3 && (j<2 || j>4))){ //possible for the move to have come from the left
+						if(prev.matrix[i-1][j] == 'C' && prev.matrix[i-2][j] == 'C' && this.matrix[i-1][j] == 'O' && this.matrix[i-2][j] == 'O'){
+							m = new Move(i, j, 1);
+						}
+					}
+					//check for down move
+					if ((j>1)||(j>3 && (i<2 || i>4))){ //possible for the move to have come from above
+						if(prev.matrix[i][j+1] == 'C' && prev.matrix[i][j+2] == 'C' && this.matrix[i][j+1] == 'O' && this.matrix[i][j+2] == 'O'){
+							m = new Move(i, j, 3);
+						}
+					}
+					//check for up move
+					if ((j<5)||(j<3 && (i<2 || i>4))){ //possible for the move to have come from the right
+						if(prev.matrix[i][j-1] == 'C' && prev.matrix[i][j-2] == 'C' && this.matrix[i][j-1] == 'O' && this.matrix[i][j-2] == 'O'){
+							m = new Move(i, j, 2);
+						}
+					} else {
+						m = new Move(i, j, 4);
+						System.out.println("THERE IS NO REASON FOR IT TO BE HERE!!!! WTF????");
+					}
+					return m;
+				}
+			}
+		}
+		return null;
+	}
+	
 	/*
 	 * Returns a list of all positions that can be reached from the current position 
 	 * by taking one legal move. Parameter "node" is needed only for the purposes of
