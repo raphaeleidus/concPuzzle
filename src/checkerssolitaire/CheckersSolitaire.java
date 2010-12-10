@@ -87,14 +87,18 @@ public class CheckersSolitaire implements Puzzle {
 	 */	
 	public boolean isGoal() {
 		int checkers = 0;
-		for(int i=0; i<7; i++){
-			for(int j=0; j<7; j++){
-				if(this.hasChecker(i, j)) {
-					checkers++;
+		if (this.hasChecker(3, 3)) {
+			for(int i=0; i<7; i++){
+				for(int j=0; j<7; j++){
+					if(i==3 && j==3) continue;
+					if(this.hasChecker(i, j)) {
+						return false;
+					}
 				}
 			}
+			return true;
 		}
-		return checkers < 10;
+		return false;
 	}
 
 	/*
