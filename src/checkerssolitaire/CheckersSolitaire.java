@@ -86,19 +86,26 @@ public class CheckersSolitaire implements Puzzle {
 	 * i.e., cells 2,pos_X+1 through 2,5 are empty 
 	 */	
 	public boolean isGoal() {
+//		if (this.hasChecker(3, 3)) {
+//			for(int i=0; i<7; i++){
+//				for(int j=0; j<7; j++){
+//					if(i==3 && j==3) continue;
+//					if(this.hasChecker(i, j)) {
+//						return false;
+//					}
+//				}
+//			}
+//			return true;
+//		}
+//		return false;
+		
 		int checkers = 0;
-		if (this.hasChecker(3, 3)) {
-			for(int i=0; i<7; i++){
-				for(int j=0; j<7; j++){
-					if(i==3 && j==3) continue;
-					if(this.hasChecker(i, j)) {
-						return false;
-					}
-				}
+		for(int i=0;i<7;i++) {
+			for(int j=0;j<7;j++){
+				if(this.hasChecker(i,j)) checkers++;
 			}
-			return true;
 		}
-		return false;
+		return checkers < 21;
 	}
 
 	/*

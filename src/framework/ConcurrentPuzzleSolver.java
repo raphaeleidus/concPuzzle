@@ -28,17 +28,20 @@ import java.util.concurrent.*;
 
 public class ConcurrentPuzzleSolver {
 	
-	class MyThread implements Callable{
+	class MyThread implements Callable {
 		Node n;
 		int level;
 		public MyThread(Node node, int deep){
 			n = node;
 		 	level = deep;
 		}
-		public LinkedList call() {	
+		public LinkedList call() throws CancellationException{	
 			
-			
-			return search(n, level);
+			LinkedList result = search(n, level);
+			if (result == null) {
+				throw new CancellationException("no result found");
+			}
+			return result;
 			
 			
 		}
@@ -69,8 +72,8 @@ public class ConcurrentPuzzleSolver {
 	 * Outputs: LinkedList
 	 */
 	public LinkedList search(Node node, int level) {		
-		ExecutorService e = Executors.newFixedThreadPool(2);
-		Set<Future<LinkedList>> set = new HashSet<Future<LinkedList>>();
+		ExecutorService e = Executors.newFixedThreadPool(3);
+		Set<Callable<LinkedList>> set = new HashSet<Callable<LinkedList>>();
 		if (seen.putIfAbsent(node.pos, node) == null) {
 			if (node.pos.isGoal()) { 
 				return node.asPositionList();
@@ -82,34 +85,19 @@ public class ConcurrentPuzzleSolver {
 				Node child = new Node(puzzle, node);
 				
 				Callable<LinkedList> task = new MyThread(child, level+1);
-				Future<LinkedList> future = e.submit(task);
-				set.add(future);
+				set.add(task);
 						
 			}
-			//Shut down execution and wait for all children to complete before moving on
-			e.shutdown();
+			LinkedList result = null;
 			try {
-				e.awaitTermination(60, TimeUnit.SECONDS);
+				result = e.invokeAny(set);
+			} catch (ExecutionException e1){
+				return null;
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-			// Send the return value back up the tree
-			for (Future<LinkedList> future : set) {
-				LinkedList result = null;
-				try {
-					result = future.get();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ExecutionException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				if(result == null) continue;
-				if(result.isEmpty()) continue;
-				else return result;
-			}
+			return result;
+			
 		}
 		
 		return null;
