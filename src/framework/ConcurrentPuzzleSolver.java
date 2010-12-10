@@ -75,11 +75,15 @@ public class ConcurrentPuzzleSolver {
 		ExecutorService e;
 		if (level == 1)
 			e = Executors.newFixedThreadPool(4);
-		else if (level%5==0) {
-			System.out.println("at level "+level);
+		else if(level >25)
+			e = Executors.newFixedThreadPool(4);
+		else if (level%5==0)
 			e = Executors.newFixedThreadPool(2);
-		} else
+		else
 			e = Executors.newFixedThreadPool(1);
+		
+		if (level > 28)
+			System.out.println("at level "+level);
 		Set<Callable<LinkedList>> set = new HashSet<Callable<LinkedList>>();
 		if (seen.putIfAbsent(node.pos, node) == null) {
 			if (node.pos.isGoal()) { 
