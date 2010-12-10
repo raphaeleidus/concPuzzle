@@ -27,7 +27,7 @@ import framework.*;
  */
 
 public class CheckersSolitare implements Puzzle {
-	char[][] matrix = new char[6][6];
+	char[][] matrix = new char[7][7];
 
 	
 	public CheckersSolitare() {
@@ -42,14 +42,14 @@ public class CheckersSolitare implements Puzzle {
 	 * @see framework.Puzzle#initialPosition()
 	 */
 	public void initialPosition() {
-		for (int i = 0; i<6; i++) {
-			for (int j = 0; j<6; j++) {
+		for (int i = 0; i<7; i++) {
+			for (int j = 0; j<7; j++) {
 				if((j<2 || j>4) && (i<2 || i>4)) {
 					matrix[i][j] = 'B';
 				} else if(j==3 && i == 3) {
 					matrix[i][j] = 'O';
 				} else {
-					matrix[i][j] = 'T';
+					matrix[i][j] = 'C';
 				}
 			}
 		}	
@@ -79,18 +79,20 @@ public class CheckersSolitare implements Puzzle {
 	 * i.e., cells 2,pos_X+1 through 2,5 are empty 
 	 */	
 	public boolean isGoal() {
-		int pos_X = -1;
-		for (int i=0; i<6; i++) {
-			if (matrix[2][i] == 'X') {
-				pos_X = i+1;
-				break;
+		if (this.hasChecker(3, 3)) {
+			for(int i=0; i<7; i++){
+				for(int j=0; j<7; j++){
+					if(((j<2 || j>4) && (i<2 || i>4)) || (i==3 && j==3)) {
+						continue;
+					}
+					if(this.hasChecker(i, j)) {
+						return false;
+					}
+				}
 			}
-		}
-		if (pos_X == -1) return false;
-		for (int i = pos_X+1; i<6; i++ ) {
-			if (matrix[2][i] != '0') return false;
-		}
-		return true;
+			return true;
+		} 
+		return false;
 	}
 
 	/*
@@ -102,8 +104,8 @@ public class CheckersSolitare implements Puzzle {
 	private LinkedList transform() {
 		LinkedList theList = new LinkedList();
 		
-		for (int i=0; i<6; i++)
-			for (int j=0; j<6; j++) {
+		for (int i=0; i<7; i++)
+			for (int j=0; j<7; j++) {
 				
 			}
 		
@@ -157,39 +159,34 @@ public class CheckersSolitare implements Puzzle {
 		
 		LinkedList theSet = new LinkedList();
 		for (int i=0; i<6; i++) {
-			for (int j=1; j<5; j++) { 
-				if ((matrix[i][j-1]=='0') && (matrix[i][j]!='0') && (matrix[i][j]==matrix[i][j+1])) {
-				    Move theMove = new Move(i,j,0);
-					RushHour position = move(theMove);	
-					if (!position.emptyMove(node, theMove)) theSet.add(position); // a left move
-				}
-			}
-		}
-		for (int i=0; i<6; i++) {
-			for (int j=4; j>0; j--) {
-				if ((matrix[i][j+1]=='0') && (matrix[i][j]!='0') && (matrix[i][j]==matrix[i][j-1])) {
-					Move theMove = new Move(i,j,1);
-					RushHour position = move(theMove);
-					if (!position.emptyMove(node, theMove)) theSet.add(position); // a right move	
-				}
-			}
-		}
-		
-		for (int i=1; i<5; i++) {
 			for (int j=0; j<6; j++) { 
-				if ((matrix[i-1][j]=='0') && (matrix[i][j]!='0') && (matrix[i][j]==matrix[i+1][j])) {
-					Move theMove = new Move(i,j,2);
-					RushHour position = move(theMove);
-					if (!position.emptyMove(node, theMove)) theSet.add(position); // a up move
-				}
-			}
-		}
-		for (int i=4; i>0; i--) {
-			for (int j=0; j<6; j++) {
-				if ((matrix[i+1][j]=='0') && (matrix[i][j]!='0') && (matrix[i][j]==matrix[i-1][j])) {
-					Move theMove = new Move(i,j,3);
-					RushHour position = move(theMove);
-					if (!position.emptyMove(node, theMove)) theSet.add(position); // a down move	
+				if (!this.hasChecker(i, j)){
+					continue;
+				} else {
+					//left move
+					if (matrix[i-1][j] == 'C' && matrix[i-2][j] == 'O') {
+						Move theMove = new Move(i,j,0);
+						CheckersSolitare position = move(theMove);
+						theSet.add(position);
+					}
+					//right move
+					if (matrix[i+1][j] == 'C' && matrix[i+2][j] == 'O') {
+						Move theMove = new Move(i,j,1);
+						CheckersSolitare position = move(theMove);
+						theSet.add(position);
+					}
+					//up move
+					if (matrix[i][j-1] == 'C' && matrix[i][j-2] == 'O') {
+						Move theMove = new Move(i,j,2);
+						CheckersSolitare position = move(theMove);
+						theSet.add(position);
+					}
+					//down move
+					if (matrix[i][j+1] == 'C' && matrix[i][j+2] == 'O') {
+						Move theMove = new Move(i,j,3);
+						CheckersSolitare position = move(theMove);
+						theSet.add(position);
+					}
 				}
 			}
 		}

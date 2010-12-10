@@ -49,7 +49,7 @@ class CheckersSolitarePanel extends JPanel {
     }
     
     for (Object o : checkerPlacement) {
-    	checkersolitare.CheckerNode cNode = (checkersolitare.CheckerNode) o;
+    	checkerssolitare.CheckerNode cNode = (checkerssolitare.CheckerNode) o;
     	drawChecker(cNode.getX(), cNode.getY(), cNode.getType(), g);
     }
     

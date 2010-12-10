@@ -19,5 +19,5 @@ class CheckerNode {
 	
 	public int getX() { return pos_x; }
 	public int getY() { return pos_y; }
-	public int getType() { return type; }
+	public char getType() { return type; }
 }
