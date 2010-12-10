@@ -69,8 +69,8 @@ public class ConcurrentPuzzleSolver {
 	 */
 	public LinkedList search(Node node, int level) {
 		ExecutorService e;
-		if (level>25)
-			e = Executors.newFixedThreadPool(3);
+		if (level>27)
+			e = Executors.newFixedThreadPool(5);
 		else if (level % 5 == 0)
 			e = Executors.newFixedThreadPool(2);
 		else
