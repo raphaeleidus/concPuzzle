@@ -40,8 +40,8 @@ class CheckersSolitarePanel extends JPanel {
     
     int thickness = 4;
 
-    for (int k = 0; k<6; k++) {
-    	for (int l = 0; l<6; l++) {
+    for (int k = 0; k<7; k++) {
+    	for (int l = 0; l<7; l++) {
     		g.fill3DRect(100 + k*40, 50 + l*40, 40, 40, true);
     	    for (int i = 1; i <= thickness; i++)
     	      g.draw3DRect(100 + k*40 - i, 50 + l*40 - i, 40 + 2 * i - 1, 40 + 2 * i - 1, true);

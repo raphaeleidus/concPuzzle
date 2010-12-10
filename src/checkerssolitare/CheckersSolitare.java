@@ -158,8 +158,8 @@ public class CheckersSolitare implements Puzzle {
 		
 		
 		LinkedList theSet = new LinkedList();
-		for (int i=0; i<6; i++) {
-			for (int j=0; j<6; j++) { 
+		for (int i=0; i<7; i++) {
+			for (int j=0; j<7; j++) { 
 				if (!this.hasChecker(i, j)){
 					continue;
 				} else {
@@ -248,8 +248,8 @@ public class CheckersSolitare implements Puzzle {
 	public boolean equals(Object o) {
 	    
 		CheckersSolitare other = (CheckersSolitare) o;
-		for (int i=0; i<6; i++)
-			for (int j=0; j<6; j++) 
+		for (int i=0; i<7; i++)
+			for (int j=0; j<7; j++) 
 				if (matrix[i][j] != other.matrix[i][j]) return false;
 		
 		return true;
@@ -257,8 +257,8 @@ public class CheckersSolitare implements Puzzle {
 	
 	public int hashCode() {
 		int code=0;
-		for (int i=0; i<6; i++)
-			for (int j=0; j<6; j++) 
+		for (int i=0; i<7; i++)
+			for (int j=0; j<7; j++) 
 				code = code+(matrix[i][j]*i+j);
 		return code;
 	}
