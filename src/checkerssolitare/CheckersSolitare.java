@@ -31,6 +31,15 @@ public class CheckersSolitare implements Puzzle {
 
 	
 	public CheckersSolitare() {
+		for (int i = 0; i<7; i++) {
+			for (int j = 0; j<7; j++) {
+				if((j<2 || j>4) && (i<2 || i>4)) {
+					matrix[i][j] = 'B';
+				} else {
+					matrix[i][j] = 'O';
+				}
+			}
+		}
 		
 	}
 	/*
@@ -44,10 +53,8 @@ public class CheckersSolitare implements Puzzle {
 	public void initialPosition() {
 		for (int i = 0; i<7; i++) {
 			for (int j = 0; j<7; j++) {
-				if((j<2 || j>4) && (i<2 || i>4)) {
-					matrix[i][j] = 'B';
-				} else if(j==3 && i == 3) {
-					matrix[i][j] = 'O';
+				if(((j<2 || j>4) && (i<2 || i>4)) || (j==3 && i==3))  {
+					continue;
 				} else {
 					matrix[i][j] = 'C';
 				}
@@ -104,11 +111,15 @@ public class CheckersSolitare implements Puzzle {
 	private LinkedList transform() {
 		LinkedList theList = new LinkedList();
 		
-		for (int i=0; i<7; i++)
+		for (int i=0; i<7; i++) {
 			for (int j=0; j<7; j++) {
-				
+				if ((j<2 || j>4) && (i<2 || i>4)) {
+					continue;
+				}
+				CheckerNode cNode = new CheckerNode(i,j,matrix[i][j]);
+				theList.add(cNode);
 			}
-		
+		}
 		
 		return theList;
 	}
@@ -121,16 +132,16 @@ public class CheckersSolitare implements Puzzle {
 	
 	public void drawSolution(LinkedList theList) {
 		
-		JFrame frame = new JFrame("RushHour");
+		JFrame frame = new JFrame("CheckersSolitare");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500,500);
+        frame.setSize(600,600);
         
         frame.setVisible(true);
         
         for (Object o : theList) {
-        	RushHour puzzle = (RushHour) o;
-        	RushHourPanel rushHourPanel = new RushHourPanel(puzzle.transform());
-        	frame.getContentPane().add(rushHourPanel);
+        	CheckersSolitare puzzle = (CheckersSolitare) o;
+        	CheckersSolitarePanel checkersSolitarePanel = new CheckersSolitarePanel(puzzle.transform());
+        	frame.getContentPane().add(checkersSolitarePanel);
         	frame.show();
         	        			
         	// an idle loop that delays the display of a position; makes moves visible
