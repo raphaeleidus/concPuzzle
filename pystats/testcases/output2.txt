@@ -1,0 +1,47 @@
+Python 2.6.1 (r261:67515, Dec  6 2008, 16:42:21) 
+[GCC 4.0.1 (Apple Computer, Inc. build 5370)] on darwin
+Type "copyright", "credits" or "license()" for more information.
+
+    ****************************************************************
+    Personal firewall software may warn about the connection IDLE
+    makes to its subprocess using this computer's internal loopback
+    interface.  This connection is not visible on any external
+    interface and no data is sent to or received from the Internet.
+    ****************************************************************
+    
+IDLE 2.6.1      
+>>> ================================ RESTART ================================
+>>> 
+
+Input: getStats("testcases/part1/testcase1/root_dir")
+testcases/part1/testcase1/root_dir :
+	19797  bytes	28  public	9  private	12  try		31  catch
+testcases/part1/testcase1/root_dir/folder1 :
+	12586  bytes	19  public	7  private	8  try		22  catch
+testcases/part1/testcase1/root_dir/folder2 :
+	7211  bytes	9  public	2  private	4  try		9  catch
+
+Input: getStats("testcases/part1/testcase2/root_dir")
+testcases/part1/testcase2/root_dir :
+	27406  bytes	37  public	11  private	19  try		42  catch
+testcases/part1/testcase2/root_dir/folder1 :
+	20195  bytes	28  public	9  private	15  try		33  catch
+testcases/part1/testcase2/root_dir/folder1/folder5 :
+	7609  bytes	9  public	2  private	7  try		11  catch
+testcases/part1/testcase2/root_dir/folder4 :
+	7211  bytes	9  public	2  private	4  try		9  catch
+testcases/part1/testcase2/root_dir/folder4/folder2 :
+	7211  bytes	9  public	2  private	4  try		9  catch
+testcases/part1/testcase2/root_dir/folder4/folder3 :
+	0  bytes	0  public	0  private	0  try		0  catch
+
+Input: getStats("testcases/part1/testcase3/root_dir")
+testcases/part1/testcase3/root_dir :
+	23388  bytes	34  public	8  private	0  try		0  catch
+testcases/part1/testcase3/root_dir/GUI :
+	4949  bytes	4  public	1  private	0  try		0  catch
+testcases/part1/testcase3/root_dir/framework :
+	3310  bytes	10  public	3  private	0  try		0  catch
+testcases/part1/testcase3/root_dir/rushhour :
+	15129  bytes	20  public	4  private	0  try		0  catch
+>>> 
