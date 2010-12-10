@@ -71,15 +71,20 @@ public class ConcurrentPuzzleSolver {
 	 * Arguments:  Node, int
 	 * Outputs: LinkedList
 	 */
-	public LinkedList search(Node node, int level) {		
-		ExecutorService e = Executors.newFixedThreadPool(level/9+1);
+	public LinkedList search(Node node, int level) {
+		ExecutorService e;
+		//if (level%5==0)
+			e = Executors.newFixedThreadPool(2);
+		//else
+		//	e = Executors.newFixedThreadPool(1);
 		Set<Callable<LinkedList>> set = new HashSet<Callable<LinkedList>>();
 		if (seen.putIfAbsent(node.pos, node) == null) {
 			if (node.pos.isGoal()) { 
 				return node.asPositionList();
 			}
 			//Run the search function on the Children
-			for (Object o : node.pos.legalMoves(node)) { 
+			LinkedList children = node.pos.legalMoves(node);
+			for (Object o : children) { 
 				
 				Puzzle puzzle = (Puzzle) o;
 				Node child = new Node(puzzle, node);

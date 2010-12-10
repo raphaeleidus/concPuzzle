@@ -2,8 +2,19 @@ package checkerssolitaire;
 
 import java.util.LinkedList;
 
+import java.util.Set;
+
+import java.util.HashSet;
+
 import javax.swing.JFrame;
 
+import checkerssolitaire.Configurations;
+
+import checkerssolitaire.CheckerNode;
+
+import checkerssolitaire.CheckersSolitaire.Move;
+
+import java.awt.Point;
 
 import framework.*;
 
@@ -42,6 +53,11 @@ public class CheckersSolitaire implements Puzzle {
 		}
 		
 	}
+	
+	
+	public void addChecker(int x, int y) {
+		matrix[x][y] = 'C';
+	}
 	/*
 	 * Reads an initial position from a list of predefined configurations.
 	 * The initial position comes as a list of vehicle placements.
@@ -51,14 +67,12 @@ public class CheckersSolitaire implements Puzzle {
 	 * @see framework.Puzzle#initialPosition()
 	 */
 	public void initialPosition() {
-		for (int i = 0; i<7; i++) {
-			for (int j = 0; j<7; j++) {
-				if(((j<2 || j>4) && (i<2 || i>4)) || (j==3 && i==3))  {
-					continue;
-				} else {
-					matrix[i][j] = 'C';
-				}
-			}
+		Configurations.addAll();
+		
+		LinkedList l = (LinkedList) Configurations.theConfigs.get(5);
+		for (Object o : l) {
+			CheckerNode cNode = (CheckerNode) o;
+			addChecker(cNode.getX(), cNode.getY());
 		}	
 	}
 	/*
@@ -75,6 +89,8 @@ public class CheckersSolitaire implements Puzzle {
 	 */
 	
 	private boolean hasChecker(int pos_x, int pos_y) {
+		if(pos_x<0 || pos_y<0 || pos_x>6 || pos_y>6)
+			return false;
 		return matrix[pos_x][pos_y] == 'C';
 	}
 	
@@ -86,28 +102,28 @@ public class CheckersSolitaire implements Puzzle {
 	 * i.e., cells 2,pos_X+1 through 2,5 are empty 
 	 */	
 	public boolean isGoal() {
-//		if (this.hasChecker(3, 3)) {
-//			for(int i=0; i<7; i++){
-//				for(int j=0; j<7; j++){
-//					if(i==3 && j==3) continue;
-//					if(this.hasChecker(i, j)) {
-//						return false;
-//					}
-//				}
-//			}
-//			return true;
-//		}
-//		return false;
-		
-		int checkers = 0;
-		int limit = 19;
-		for(int i=0;i<7;i++) {
-			for(int j=0;j<7;j++){
-				if(this.hasChecker(i,j)) checkers++;
-				if(checkers >= limit) return false;
+		if (this.hasChecker(3, 3)) {
+			for(int i=0; i<7; i++){
+				for(int j=0; j<7; j++){
+					if(i==3 && j==3) continue;
+					if(this.hasChecker(i, j)) {
+						return false;
+					}
+				}
 			}
+			return true;
 		}
-		return checkers < limit;
+		return false;
+		
+//		int checkers = 0;
+//		int limit = 10;
+//		for(int i=0;i<7;i++) {
+//			for(int j=0;j<7;j++){
+//				if(this.hasChecker(i,j)) checkers++;
+//				if(checkers >= limit) return false;
+//			}
+//		}
+//		return checkers < limit;
 	}
 
 	/*
@@ -160,7 +176,7 @@ public class CheckersSolitaire implements Puzzle {
         	do {
         		t1=System.currentTimeMillis();
             }
-     	    while (t1-t0<700);
+     	    while (t1-t0<500);
         	        
         }
 	}
@@ -172,6 +188,7 @@ public class CheckersSolitaire implements Puzzle {
 	 * emptyMove (if a potential move is determined to be empty, then it is not 
 	 * placed on the list).
 	 */
+	
 	
 	public LinkedList legalMoves(Node node) {
 		
