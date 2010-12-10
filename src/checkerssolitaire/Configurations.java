@@ -101,5 +101,15 @@ public class Configurations {
 		   }
 	   }
 	   theConfigs.add(set6);
+	   
+	   LinkedList set7 = new LinkedList(); //solitare
+	   for(int i=0; i<7; i++) {
+		   for(int j=0; j<7; j++) {
+			   if((i<2 || i>4) && (j<2 || j>4)) continue;
+			   if(i==3 && j==3) continue;
+			   set7.add(new CheckerNode(i,j,'C'));
+		   }
+	   }
+	   theConfigs.add(set7);
 	}
 }

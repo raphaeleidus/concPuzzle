@@ -69,7 +69,7 @@ public class CheckersSolitaire implements Puzzle {
 	public void initialPosition() {
 		Configurations.addAll();
 		
-		LinkedList l = (LinkedList) Configurations.theConfigs.get(5);
+		LinkedList l = (LinkedList) Configurations.theConfigs.get(6);
 		for (Object o : l) {
 			CheckerNode cNode = (CheckerNode) o;
 			addChecker(cNode.getX(), cNode.getY());

@@ -73,10 +73,10 @@ public class ConcurrentPuzzleSolver {
 	 */
 	public LinkedList search(Node node, int level) {
 		ExecutorService e;
-		//if (level%5==0)
+		if (level%5==0)
 			e = Executors.newFixedThreadPool(2);
-		//else
-		//	e = Executors.newFixedThreadPool(1);
+		else
+			e = Executors.newFixedThreadPool(1);
 		Set<Callable<LinkedList>> set = new HashSet<Callable<LinkedList>>();
 		if (seen.putIfAbsent(node.pos, node) == null) {
 			if (node.pos.isGoal()) { 
@@ -97,10 +97,12 @@ public class ConcurrentPuzzleSolver {
 			try {
 				result = e.invokeAny(set);
 			} catch (ExecutionException e1){
+				e.shutdownNow();
 				return null;
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 			}
+			e.shutdownNow();
 			return result;
 			
 		}
