@@ -16,9 +16,8 @@ class CheckersSolitairePanel extends JPanel {
 	}
 	
 /*
- * Method drawVehicle(pos_x, pos_y, vehicle, direction...) 
- * displays a vehicle "vehicle" (one of 'A' through 'K', 'O' through 'R' and 'X') 
- * starting at row "pos_x", column "pos_y" in direction "direction". 
+ * Method drawChecker(pos_x, pos_y, type, g) 
+ * Draws a checker either white for open  blue for closed (occupied)
  * 
  * TODO: Needs refactoring: vehicles, colors and lengths should be 
  * coded using meaningful symbolic constants.
