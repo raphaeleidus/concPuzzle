@@ -1,6 +1,9 @@
 package checkerssolitaire;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import java.util.Set;
 
@@ -182,44 +185,47 @@ public class CheckersSolitaire implements Puzzle {
 	}
 	
 	
-	private Move getLastMove(Node node) {
-		CheckersSolitaire prev = (CheckersSolitaire) node.getPrev().getPos();
+	private int getLastDirection(Node node) {
+		Node pNode = node.getPrev();
+		if (pNode == null) {
+			return 3;
+		}
+		CheckersSolitaire prev = (CheckersSolitaire) pNode.getPos();
 		for (int i=0; i<7; i++){
 			for (int j=0; j<7; j++){
 				if (prev.matrix[i][j]=='O' && this.matrix[i][j]=='C') {
-					Move m = new Move(i, j, 4);
 					//check for left move
-					if ((i<5)||(i<3 && (j<2 || j>4))){ //possible for the move to have come from the right
+					if (i<5||(i<3 && (j<2 || j>4))){ //possible for the move to have come from the right
 						if(prev.matrix[i+1][j] == 'C' && prev.matrix[i+2][j] == 'C' && this.matrix[i+1][j] == 'O' && this.matrix[i+2][j] == 'O'){
-							m = new Move(i, j, 0);
+							return 0;
 						}
 					}
 					//check for right move
-					if ((i>1)||(i>3 && (j<2 || j>4))){ //possible for the move to have come from the left
+					if (i>1||(i>3 && (j<2 || j>4))){ //possible for the move to have come from the left
 						if(prev.matrix[i-1][j] == 'C' && prev.matrix[i-2][j] == 'C' && this.matrix[i-1][j] == 'O' && this.matrix[i-2][j] == 'O'){
-							m = new Move(i, j, 1);
+							return 1;
 						}
 					}
 					//check for down move
-					if ((j>1)||(j>3 && (i<2 || i>4))){ //possible for the move to have come from above
+					if (j<5||(j<3 && (i<2 || i>4))){ //possible for the move to have come from above
 						if(prev.matrix[i][j+1] == 'C' && prev.matrix[i][j+2] == 'C' && this.matrix[i][j+1] == 'O' && this.matrix[i][j+2] == 'O'){
-							m = new Move(i, j, 3);
+							return 3;
 						}
 					}
 					//check for up move
-					if ((j<5)||(j<3 && (i<2 || i>4))){ //possible for the move to have come from the right
+					if (j>1||(j>3 && (i<2 || i>4))){ //possible for the move to have come from the right
 						if(prev.matrix[i][j-1] == 'C' && prev.matrix[i][j-2] == 'C' && this.matrix[i][j-1] == 'O' && this.matrix[i][j-2] == 'O'){
-							m = new Move(i, j, 2);
+							return 2;
 						}
 					} else {
-						m = new Move(i, j, 4);
 						System.out.println("THERE IS NO REASON FOR IT TO BE HERE!!!! WTF????");
+						return 3;
 					}
-					return m;
+					return 3;
 				}
 			}
 		}
-		return null;
+		return 3;
 	}
 	
 	/*
@@ -231,12 +237,13 @@ public class CheckersSolitaire implements Puzzle {
 	
 	
 	public LinkedList legalMoves(Node node) {
-		Move last = getLastMove(node);
+		int dire= getLastDirection(node);
 		
-		LinkedList moveOrder = new LinkedList();
+		List moveOrder = new ArrayList(); 
 		moveOrder.add(0); moveOrder.add(1); moveOrder.add(2); moveOrder.add(3);
-		moveOrder.remove(last.direction);
-		moveOrder.addLast(last.direction);
+		moveOrder.remove(dire);
+		Collections.shuffle(moveOrder);
+		moveOrder.add(dire);
 		
 		LinkedList theSet = new LinkedList();
 		
