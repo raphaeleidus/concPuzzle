@@ -247,8 +247,8 @@ public class CheckersSolitaire implements Puzzle {
 		
 		LinkedList theSet = new LinkedList();
 		
-		for (Object dir : moveOrder) {
-			int d = (Integer) dir;
+		for (int k=0; k<4; k++) {
+			int d = (Integer) moveOrder.get(k);
 			for (int i=0; i<7; i++) {
 				for (int j=0; j<7; j++) { 
 					if (this.hasChecker(i, j)){

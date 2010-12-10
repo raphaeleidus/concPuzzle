@@ -23,16 +23,16 @@ public class Driver {
         // Configuration 1, shown below, initializes the sequential solver with the other puzzle,
     	// CheckersSolitaire
     	
-    	framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
-    	framework.SequentialPuzzleSolver theSolver = new framework.SequentialPuzzleSolver(thePuzzle);
+//    	framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
+//    	framework.SequentialPuzzleSolver theSolver = new framework.SequentialPuzzleSolver(thePuzzle);
   
     	// Configuration 2, below, initializes the concurrent solver with RushHour
 //    	framework.Puzzle thePuzzle = new rushhour.RushHour();
 //    	framework.ConcurrentPuzzleSolver theSolver = new framework.ConcurrentPuzzleSolver(thePuzzle);  	
  
     	// Configuration 3, below, initializes the concurrent solver with CheckersSolitaire
-//    	framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
-//    	framework.ConcurrentPuzzleSolver theSolver = new framework.ConcurrentPuzzleSolver(thePuzzle);  	
+    	framework.Puzzle thePuzzle = new checkerssolitaire.CheckersSolitaire();
+    	framework.ConcurrentPuzzleSolver theSolver = new framework.ConcurrentPuzzleSolver(thePuzzle);  	
     	
     	// DO NOT MODIFY ANYTHING BEYOND THIS LINE 
       	
